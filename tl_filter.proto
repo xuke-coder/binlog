@@ -1,0 +1,42 @@
+package tl_filter;
+
+
+enum CmdType
+{
+    SYNC_TIMELINE = 3;
+}
+
+message Header
+{
+	required uint64 seq_id = 1;	// 用于异步请求或者debug
+	required CmdType  cmd = 2[default = SYNC_TIMELINE];
+	optional int32  err_no = 3[default = 0];
+    optional string err_msg = 4[default = "ok"];
+}
+
+message UserInfo
+{
+	required uint64 uin = 1[default = 0];
+	required string deviceid = 2[default = ""];
+	required string openid = 3[default = ""];
+	optional string omgid = 4[default = ""];	
+}
+
+message TlFilter
+{
+    required UserInfo userinfo = 1;
+	repeated string docs = 2;
+	optional string field_name = 3[default = "tlField_v1"];
+}
+
+message TlRequest
+{
+	required Header header = 1;
+	repeated TlFilter tl_filter= 2;
+}
+
+message TlResponse
+{
+	required Header header = 1;
+	repeated TlFilter tl_filter = 2;
+}
